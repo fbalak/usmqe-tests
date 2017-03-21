@@ -14,6 +14,7 @@ def not_found_response():
         "reason": 'Not Found',
         "status": 404}
 
+
 @pytest.fixture
 def unauthorized_response():
     """Generate asserts for ``401 Unauthorized`` response."""

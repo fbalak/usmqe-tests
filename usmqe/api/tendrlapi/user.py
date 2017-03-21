@@ -2,9 +2,8 @@
 tendrl REST API.
 """
 
-import json
-
 import requests
+
 import pytest
 
 from usmqe.api.tendrlapi.common import TendrlApi
@@ -13,8 +12,8 @@ LOGGER = pytest.get_logger("tendrlapi.user", module=True)
 
 
 class ApiUser(TendrlApi):
-    """ Main class for interact with REST API - user.
-    """
+    """ Main class for interact with REST API - user."""
+
     def users(self, asserts_in=None):
         """ Get users.
 
@@ -27,9 +26,9 @@ class ApiUser(TendrlApi):
         """
         pattern = "users"
         request = requests.get(pytest.config.getini("USM_APIURL") + pattern)
-        ApiUser.print_req_info(request)
-        ApiUser.check_response(request, asserts_in)
-        if req.ok:
+        self.print_req_info(request)
+        self.check_response(request, asserts_in)
+        if request.ok:
             defined_keys = {
                 "email",
                 "username",
@@ -38,9 +37,9 @@ class ApiUser(TendrlApi):
             for item in request.json(encoding='unicode'):
                 user = item["username"]
                 pytest.check(
-                    item.keys() == defined_keys
-                    "User {0} should contain: {1}\n\tUser {0} contains: {2}".
-                    format(user, defined_keys, item.keys))
+                    item.keys() == defined_keys,
+                    "User {0} should contain: {1}\n\tUser {0} contains: {2}"
+                    .format(user, defined_keys, item.keys))
             return request.json(encoding='unicode')
 
     def user_edit(self, username, data, asserts_in=None):
@@ -54,10 +53,10 @@ class ApiUser(TendrlApi):
         """
         pattern = "users/{}".format(username)
         request = requests.put(pytest.config.getini("USM_APIURL") + pattern)
-        ApiUser.print_req_info(request)
-        ApiUser.check_response(request, asserts_in)
+        self.print_req_info(request)
+        self.check_response(request, asserts_in)
 # TODO check json comparision
-        return req.json(encoding='unicode')
+        return request.json(encoding='unicode')
 
     def user_add(self, user_in, asserts_in=None):
         """ Add user throught **users**.
@@ -72,17 +71,16 @@ class ApiUser(TendrlApi):
             asserts_in: assert values for this call and this method
         """
         pattern = "users"
-        req = requests.post(pytest.config.getini("USM_APIURL") + pattern,
-                            user_in)
-        ApiUser.print_req_info(request)
-        ApiUser.check_response(request, asserts_in)
+        request = requests.post(pytest.config.getini("USM_APIURL") + pattern, user_in)
+        self.print_req_info(request)
+        self.check_response(request, asserts_in)
         user_in.pop("password", None)
         user_in.pop("password_confirmation", None)
         stored_user = self.user(user_in["username"])
         pytest.check(
             user_in == stored_user,
-            "Information sent: {}, information stored in database: {},
-            These should match".format(user_in, stored_user))
+            "Information sent: {}, information stored in database: {}, These should match"
+            .format(user_in, stored_user))
         return stored_user
 
     def user(self, username, asserts_in=None):
@@ -96,23 +94,22 @@ class ApiUser(TendrlApi):
             username: name of user stored in database
             asserts_in: assert values for this call and this method
         """
-        patter = "users/{}".format(username)
+        pattern = "users/{}".format(username)
         request = requests.get(
             pytest.config.getini("USM_APIURL") + pattern)
-        ApiUser.print_req_info(request)
-        ApiUser.check_response(request, asserts_in)
-        real_vals = request.json(encoding='unicode')
+        self.print_req_info(request)
+        self.check_response(request, asserts_in)
 
         defined_keys = {
             "email",
             "username",
             "name",
             "role"}
-        stored_keys = response.json().keys()
+        stored_keys = request.json().keys()
         pytest.check(
-            defined_keys = stored_keys
-            "Json of added user should contain: {0}\n\tIt contains: {1}".
-            format(defined_keys, stored_keys)
+            defined_keys == stored_keys,
+            "Json of added user should contain: {0}\n\tIt contains: {1}"
+            .format(defined_keys, stored_keys))
         return request.json(encoding='unicode')
 
     def user_del(self, username, asserts_in=None):
@@ -129,5 +126,5 @@ class ApiUser(TendrlApi):
         pattern = "users/{}".format(username)
         request = requests.delete(
             pytest.config.getini("USM_APIURL") + pattern)
-        ApiUser.print_req_info(request)
-        ApiUser.check_response(request, asserts_in)
+        self.print_req_info(request)
+        self.check_response(request, asserts_in)

@@ -56,29 +56,3 @@ class TendrlApi(ApiBase):
             msg="Job status is {} and should be {}".format(current_status, status),
             issue=issue)
         return current_status
-
-    def login(self, username, password, asserts_in=None):
-        """ Login to REST API
-
-        Name:        "login",
-        Method:      "POST",
-        Pattern:     "auth/login",
-
-        Args:
-            username: username
-            password: password
-            asserts_in: assert values for this call and this method
-        """
-    pass
-
-    def logout(self, asserts_in=None):
-        """ Logout from REST API
-
-        Name:        "logout",
-        Method:      "POST",
-        Pattern:     "auth/logout",
-
-        Args:
-            asserts_in: assert values for this call and this method
-        """
-    pass

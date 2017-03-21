@@ -2,9 +2,6 @@
 """
 REST API test suite - user
 """
-import pytest
-
-import json
 
 from usmqe.api.tendrlapi import user as tendrlapi_user
 
@@ -38,15 +35,6 @@ def test_user_get():
     """
     test = tendrlapi_user.ApiUser()
     """@pylatest api/user.get
-    .. test_step:: 1
-       :include: api/user.login_valid:1
-
-    .. test_result:: 1
-       :include: api/user.login_valid:1
-    """
-    test.login(pytest.config.getini("usm_username"),
-               pytest.config.getini("usm_password"))
-    """@pylatest api/user.get
     .. test_step:: 2
 
         Send **GET** request to ``APIURL/users``.
@@ -68,7 +56,6 @@ def test_user_get():
         User information for user *admin* is returned.
     """
     test.user('admin')
-    test.logout()
 
 
 def test_user_get_not_found(invalid_user, not_found_response):
@@ -84,15 +71,6 @@ def test_user_get_not_found(invalid_user, not_found_response):
     Get users.
     """
     test = tendrlapi_user.ApiUser()
-    """@pylatest api/user.get_nonexistent
-    .. test_step:: 1
-       :include: api/user.login_valid:1
-
-    .. test_result:: 1
-       :include: api/user.login_valid:1
-    """
-    test.login(pytest.config.getini("usm_username"),
-               pytest.config.getini("usm_password"))
 
     """@pylatest api/user.get_nonexistent
     .. test_step:: 2
@@ -105,9 +83,7 @@ def test_user_get_not_found(invalid_user, not_found_response):
 
         It should return error about unknown user.
     """
-     test.user(user, asserts_in=not_found_response)
-
-    test.logout()
+    test.user(invalid_user, asserts_in=not_found_response)
 
 
 def test_user_add_del(valid_user_data, not_found_response):
@@ -115,7 +91,7 @@ def test_user_add_del(valid_user_data, not_found_response):
     API-users: add and delete
     *************************
 
-    .. test_metadata:: author mkudlej@redhat.com dahorak@redhat.com
+    .. test_metadata:: author mkudlej@redhat.com dahorak@redhat.com fbalak@redhat.com
 
     Description
     ===========
@@ -124,27 +100,12 @@ def test_user_add_del(valid_user_data, not_found_response):
     """
     test = tendrlapi_user.ApiUser()
     """@pylatest api/user.add_delete
-    .. test_step:: 1
-       :include: api/user.login_valid:1
-
-    .. test_result:: 1
-       :include: api/user.login_valid:1
-    """
-    test.login(pytest.config.getini("usm_username"),
-               pytest.config.getini("usm_password"))
-    """@pylatest api/user.add_delete
     .. test_step:: 2
 
         Add user test2.
 
-        Send **PUT** request to ``APIURL/users/test2`` with data::
-
-            {
-              "username":"test2",
-              "email":"test2@localhost",
-              "role":"admin",
-              "groups":[]
-            }
+        Send **PUT** request to ``APIURL/users/test2`` with data from fixture
+        valid_user_data where are specified keys: email, username, name, role
 
     .. test_result:: 2
 
@@ -196,4 +157,3 @@ def test_user_add_del(valid_user_data, not_found_response):
     .. test_result:: 6
        :include: api/user.logout:3
     """
-    test.logout()

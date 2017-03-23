@@ -21,7 +21,7 @@ Teardown
 """
 
 
-def test_user_get():
+def test_user_get(valid_access_credentials):
     """@pylatest api/user.get
     API-users: get user
     *******************
@@ -43,7 +43,7 @@ def test_user_get():
 
         List of users in database is returned
     """
-    test.users
+    test.users(valid_access_credentials)
     """@pylatest api/user.get
     .. test_step:: 3
 
@@ -55,10 +55,10 @@ def test_user_get():
 
         User information for user *admin* is returned.
     """
-    test.user('admin')
+    test.user('admin', valid_access_credentials)
 
 
-def test_user_get_not_found(invalid_user, not_found_response):
+def test_user_get_not_found(invalid_access_credentials, not_found_response):
     """@pylatest api/user.get_nonexistent
     API-users: get nonexistent user
     *******************************
@@ -83,10 +83,10 @@ def test_user_get_not_found(invalid_user, not_found_response):
 
         It should return error about unknown user.
     """
-    test.user(invalid_user, asserts_in=not_found_response)
+    test.user(invalid_access_credentials, asserts_in=not_found_response)
 
 
-def test_user_add_del(valid_user_data, not_found_response):
+def test_user_add_del(valid_access_credentials, not_found_response):
     """@pylatest api/user.add_delete
     API-users: add and delete
     *************************
@@ -114,7 +114,7 @@ def test_user_add_del(valid_user_data, not_found_response):
         Return code should be (FIXME: 201, 202)**???** (current 200).
     """
     # add test user
-    test.users_add(valid_user_data)
+    test.users_add(valid_access_credentials)
     """@pylatest api/user.add_delete
     .. test_step:: 3
        :include: api/user.get:2
@@ -122,7 +122,7 @@ def test_user_add_del(valid_user_data, not_found_response):
     .. test_result:: 3
        :include: api/user.get:2
     """
-    test.user(valid_user_data["username"])
+    test.user(valid_access_credentials["username"])
     """@pylatest api/user.add_delete
     .. test_step:: 4
 
@@ -136,7 +136,7 @@ def test_user_add_del(valid_user_data, not_found_response):
 
         Return code should be (FIXME: 201, 202)**???** (current 200).
     """
-    test.user_del(valid_user_data["username"])
+    test.user_del(valid_access_credentials["username"])
     """@pylatest api/user.add_delete
     .. test_step:: 5
        :include: api/user.get:2
@@ -149,7 +149,7 @@ def test_user_add_del(valid_user_data, not_found_response):
 
             {"Error": "can't find user"}
     """
-    test.user(valid_user_data["username"], not_found_response)
+    test.user(valid_access_credentials["username"], not_found_response)
     """@pylatest api/user.add_delete
     .. test_step:: 6
        :include: api/user.logout:3

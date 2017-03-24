@@ -6,6 +6,8 @@ import requests
 
 import pytest
 
+import json
+
 from usmqe.api.tendrlapi.common import TendrlApi
 
 LOGGER = pytest.get_logger("tendrlapi.user", module=True)
@@ -54,6 +56,7 @@ class ApiUser(TendrlApi):
         """
         pattern = "users/{}".format(username)
         request = requests.put(pytest.config.getini("usm_api_url") + pattern,
+            json.dumps(data),
             headers = {"Authorization": "Bearer {}".format(credentials["access_token"])})
         self.print_req_info(request)
         self.check_response(request, asserts_in)
@@ -73,13 +76,14 @@ class ApiUser(TendrlApi):
             asserts_in: assert values for this call and this method
         """
         pattern = "users"
-        request = requests.post(pytest.config.getini("usm_api_url") + pattern, user_in,
-            headers = {"Authorization": "Bearer {}".format(credentials["access_token"])})
+        request = requests.post(pytest.config.getini("usm_api_url") + pattern,
+            data=json.dumps(user_in),
+            headers={"Authorization": "Bearer {}".format(credentials["access_token"])})
         self.print_req_info(request)
         self.check_response(request, asserts_in)
         user_in.pop("password", None)
         user_in.pop("password_confirmation", None)
-        stored_user = self.user(user_in["username"])
+        stored_user = self.user(user_in["username"], credentials)
         pytest.check(
             user_in == stored_user,
             "Information sent: {}, information stored in database: {}, These should match"

@@ -5,6 +5,8 @@ REST API test suite - user
 
 from usmqe.api.tendrlapi import user as tendrlapi_user
 
+import pytest
+
 
 """@pylatest default
 Setup
@@ -83,10 +85,13 @@ def test_user_get_not_found(invalid_access_credentials, not_found_response):
 
         It should return error about unknown user.
     """
-    test.user(invalid_access_credentials, asserts_in=not_found_response)
+    test.user(
+        pytest.config.getini("usm_username"),
+        invalid_access_credentials,
+        asserts_in=not_found_response)
 
 
-def test_user_add_del(valid_access_credentials, not_found_response):
+def test_user_add_del(valid_access_credentials, valid_user_import, not_found_response):
     """@pylatest api/user.add_delete
     API-users: add and delete
     *************************
@@ -114,7 +119,7 @@ def test_user_add_del(valid_access_credentials, not_found_response):
         Return code should be (FIXME: 201, 202)**???** (current 200).
     """
     # add test user
-    test.users_add(valid_access_credentials)
+    test.user_add(valid_access_credentials)
     """@pylatest api/user.add_delete
     .. test_step:: 3
        :include: api/user.get:2

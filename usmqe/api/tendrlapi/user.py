@@ -25,7 +25,7 @@ class ApiUser(TendrlApi):
             asserts_in: assert values for this call and this method
         """
         pattern = "users"
-        request = requests.get(pytest.config.getini("USM_APIURL") + pattern,
+        request = requests.get(pytest.config.getini("usm_api_url") + pattern,
             headers = {"Authorization": "Bearer {}".format(credentials["access_token"])})
         self.print_req_info(request)
         self.check_response(request, asserts_in)
@@ -53,7 +53,7 @@ class ApiUser(TendrlApi):
             asserts_in: assert values for this call and this method
         """
         pattern = "users/{}".format(username)
-        request = requests.put(pytest.config.getini("USM_APIURL") + pattern,
+        request = requests.put(pytest.config.getini("usm_api_url") + pattern,
             headers = {"Authorization": "Bearer {}".format(credentials["access_token"])})
         self.print_req_info(request)
         self.check_response(request, asserts_in)
@@ -73,7 +73,7 @@ class ApiUser(TendrlApi):
             asserts_in: assert values for this call and this method
         """
         pattern = "users"
-        request = requests.post(pytest.config.getini("USM_APIURL") + pattern, user_in,
+        request = requests.post(pytest.config.getini("usm_api_url") + pattern, user_in,
             headers = {"Authorization": "Bearer {}".format(credentials["access_token"])})
         self.print_req_info(request)
         self.check_response(request, asserts_in)
@@ -99,7 +99,7 @@ class ApiUser(TendrlApi):
         """
         pattern = "users/{}".format(username)
         request = requests.get(
-            pytest.config.getini("USM_APIURL") + pattern,
+            pytest.config.getini("usm_api_url") + pattern,
             headers = {"Authorization": "Bearer {}".format(credentials["access_token"])})
         self.print_req_info(request)
         self.check_response(request, asserts_in)
@@ -129,7 +129,7 @@ class ApiUser(TendrlApi):
         """
         pattern = "users/{}".format(username)
         request = requests.delete(
-            pytest.config.getini("USM_APIURL") + pattern,
+            pytest.config.getini("usm_api_url") + pattern,
             headers = {"Authorization": "Bearer {}".format(credentials["access_token"])})
         self.print_req_info(request)
         self.check_response(request, asserts_in)

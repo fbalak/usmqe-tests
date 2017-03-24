@@ -5,8 +5,6 @@ REST API test suite - user
 
 from usmqe.api.tendrlapi import user as tendrlapi_user
 
-import pytest
-
 
 """@pylatest default
 Setup

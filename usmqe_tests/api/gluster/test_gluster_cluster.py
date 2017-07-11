@@ -20,8 +20,8 @@ Teardown
 ========
 """
 
-"""@pylatest api/gluster.cluster_create
-API-gluster: cluster_create
+"""@pylatest api/gluster.cluster_create_expand
+API-gluster: cluster_create_expand
 ***************************
 
 .. test_metadata:: author fbalak@redhat.com
@@ -29,12 +29,12 @@ API-gluster: cluster_create
 Description
 ===========
 
-Positive create gluster cluster.
+Positive create gluster cluster and expand it.
 """
 
 
 @pytest.mark.parametrize("cluster_name", ["ClusterName"])
-def test_cluster_create_valid(
+def test_cluster_create_expand_valid(
         valid_session_credentials,
         valid_nodes,
         cluster_name):
@@ -78,8 +78,8 @@ def test_cluster_create_valid(
             " configuration for this test, it is: {}".format(len(ips)))
         nodes.append({
             "role": "glusterfs/node",
-            "ip": ips[0]})
-        node_ids.append(x["node_id"])
+            "ip": ips[0],
+            "node_id": x["node_id"]})
         if "provisioner/gluster" in x["tags"]:
             provisioner_ip = ips[0]
     LOGGER.debug("node_ips: %s" % nodes)
@@ -133,6 +133,7 @@ def test_cluster_create_valid(
         "(is {}) as is in API call for cluster creation."
         "(is {})".format(len(imported_nodes), len(nodes)))
 
+    node_ids = [node["node_id"] for node in nodes]
     pytest.check(
         set(node_ids) == set(imported_nodes.keys()),
         "There should be imported these nodes: {}"

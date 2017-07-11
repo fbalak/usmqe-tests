@@ -331,7 +331,7 @@ class TendrlApi(ApiBase):
         Args:
             cluster_id (str): id of cluster where will be created volume
             nodes (list): list of dictionaries containing:
-                          ``node_id``,``role`` and ``provisioning_ip``
+                          ``node_id``,``role`` and ``ip``
             sds_type (str): ceph or gluster
             asserts_in (dict): assert values for this call and this method
         """
@@ -346,7 +346,7 @@ class TendrlApi(ApiBase):
             "Cluster.node_configuration": {
                 x["node_id"]: {
                     "role": x["role"],
-                    "provisioning_ip": x["provisioning_ip"]}
+                    "provisioning_ip": x["ip"]}
                 for x in nodes}
             }
         response = requests.post(

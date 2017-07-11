@@ -325,6 +325,39 @@ class TendrlApi(ApiBase):
         self.check_response(response, asserts_in)
         return response.json()
 
+    def expand_cluster(self, cluster_id, nodes, sds_type, asserts_in=None):
+        """ Expand cluster with additional nodes.
+
+        Args:
+            cluster_id (str): id of cluster where will be created volume
+            nodes (list): list of dictionaries containing:
+                          ``node_id``,``role`` and ``provisioning_ip``
+            sds_type (str): ceph or gluster
+            asserts_in (dict): assert values for this call and this method
+        """
+        asserts_in = asserts_in or {
+            "cookies": None,
+            "ok": True,
+            "reason": 'Accepted',
+            "status": 202}
+        pattern = "{}/ExpandCluster".format(cluster_id)
+        data = {
+            "sds_name": sds_type,
+            "Cluster.node_configuration": {
+                x["node_id"]: {
+                    "role": x["role"],
+                    "provisioning_ip": x["provisioning_ip"]}
+                for x in nodes}
+            }
+        response = requests.post(
+            pytest.config.getini("usm_api_url") + pattern,
+            data=json.dumps(data),
+            auth=self._auth)
+        self.print_req_info(response)
+        self.check_response(response, asserts_in)
+        return response.json()
+
+
     def import_cluster(self, nodes, sds_type=None, asserts_in=None):
         """ Import cluster.
 

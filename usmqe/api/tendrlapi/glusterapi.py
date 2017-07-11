@@ -53,6 +53,21 @@ class TendrlApiGluster(TendrlApi):
             sds_version=pytest.config.getini("usm_gluster_version"),
             asserts_in=asserts_in)
 
+    def expand_cluster(self, cluster_id, nodes, asserts_in=None):
+        """ Expand gluster cluster with additional nodes.
+
+        Args:
+            cluster_id (str): id of cluster where will be created volume
+            nodes (list): list of dictionaries containing:
+                          ``node_id``,``role`` and ``provisioning_ip``
+            asserts_in (dict): assert values for this call and this method
+        """
+        return super().create_cluster(
+            cluster_id=cluster_id,
+            nodes=nodes,
+            sds_type="gluster",
+            asserts_in=asserts_in)
+
     def get_volume_list(self, cluster):
         """ Get list of gluster volumes specified by cluster id
 

@@ -29,15 +29,16 @@ API-gluster: cluster_create_expand
 Description
 ===========
 
-Positive create gluster cluster and expand it.
+Positive test for create gluster cluster and expanding it.
 """
 
 
-@pytest.mark.parametrize("cluster_name", ["ClusterName"])
+@pytest.mark.parametrize("cluster_name, expand_nodes_count", ["ClusterName", 1])
 def test_cluster_create_expand_valid(
         valid_session_credentials,
         valid_nodes,
-        cluster_name):
+        cluster_name,
+        expand_nodes_count):
     api = glusterapi.TendrlApiGluster(auth=valid_session_credentials)
     """@pylatest api/gluster.cluster_import
         .. test_step:: 1
@@ -82,8 +83,8 @@ def test_cluster_create_expand_valid(
             "node_id": x["node_id"]})
         if "provisioner/gluster" in x["tags"]:
             provisioner_ip = ips[0]
-    create_nodes = nodes[:-1]
-    expand_nodes = [nodes[-1]]
+    create_nodes = nodes[:-expand_nodes_count]
+    expand_nodes = nodes[-expand_nodes_count:]
     LOGGER.debug("nodes: %s" % nodes)
     LOGGER.debug("provisioner: %s" % provisioner_ip)
     """@pylatest api/gluster.cluster_create

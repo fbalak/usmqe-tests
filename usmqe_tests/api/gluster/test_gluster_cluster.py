@@ -82,7 +82,9 @@ def test_cluster_create_expand_valid(
             "node_id": x["node_id"]})
         if "provisioner/gluster" in x["tags"]:
             provisioner_ip = ips[0]
-    LOGGER.debug("node_ips: %s" % nodes)
+    create_nodes = nodes[:-1]
+    expand_nodes = [nodes[-1]]
+    LOGGER.debug("nodes: %s" % nodes)
     LOGGER.debug("provisioner: %s" % provisioner_ip)
     """@pylatest api/gluster.cluster_create
         .. test_step:: 2
@@ -95,13 +97,24 @@ def test_cluster_create_expand_valid(
         """
     api = glusterapi.TendrlApiGluster(auth=valid_session_credentials)
     pytest.check(
-        len(nodes) > 0,
+        len(create_nodes) > 0,
         "There have to be at least one gluster node."
         "There are {}".format(len(valid_nodes)))
+
+    """@pylatest api/gluster.cluster_create
+        .. test_step:: 3
+
+        Create cluster from available nodes except one.
+
+        .. test_result:: 3
+
+        Test passes if there is cluster created from provided nodes.
+        """
+    cluster_id = str(uuid.uuid4())
     job_id = api.create_cluster(
         cluster_name,
-        str(uuid.uuid4()),
-        nodes,
+        cluster_id,
+        create_nodes,
         provisioner_ip,
         network)["job_id"]
 
@@ -128,9 +141,50 @@ def test_cluster_create_expand_valid(
 
     imported_nodes = imported_clusters[0]["nodes"]
     pytest.check(
-        len(imported_nodes) == len(nodes),
+        len(imported_nodes) == len(create_nodes),
         "In cluster should be the same amount of hosts"
         "(is {}) as is in API call for cluster creation."
+        "(is {})".format(len(imported_nodes), len(create_nodes)))
+
+    node_ids = [node["node_id"] for node in create_nodes]
+    pytest.check(
+        set(node_ids) == set(imported_nodes.keys()),
+        "There should be imported these nodes: {}"
+        "There are: {}".format(node_ids, imported_nodes.keys()))
+
+    """@pylatest api/gluster.cluster_create
+        .. test_step:: 4
+
+        Expand created cluster with remaining node.
+
+        .. test_result:: 4
+
+        Test passes if the cluster is successfully expanded.
+        """
+    job_id = api.expand_cluster(
+        cluster_id,
+        expand_nodes)["job_id"]
+
+    api.wait_for_job_status(job_id)
+
+    api.get_cluster_list()
+    # TODO(fbalak) remove this sleep after
+    #              https://github.com/Tendrl/api/issues/159 is resolved.
+    import time
+    time.sleep(30)
+
+    imported_clusters = [x for x in api.get_cluster_list()
+                         if x["integration_id"] == integration_id]
+    pytest.check(
+        len(imported_clusters) == 1,
+        "Job list integration_id '{}' should be "
+        "present in cluster list.".format(integration_id))
+
+    imported_nodes = imported_clusters[0]["nodes"]
+    pytest.check(
+        len(imported_nodes) == len(nodes),
+        "In cluster should be the same amount of hosts"
+        "(is {}) as is in API call for cluster creation and expand cluster."
         "(is {})".format(len(imported_nodes), len(nodes)))
 
     node_ids = [node["node_id"] for node in nodes]

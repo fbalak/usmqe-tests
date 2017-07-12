@@ -7,6 +7,7 @@ import json
 import uuid
 
 from usmqe.api.tendrlapi import glusterapi
+from usmqe.gluster import gluster
 
 
 LOGGER = pytest.get_logger('cluster_test', module=True)
@@ -193,6 +194,23 @@ def test_cluster_create_expand_valid(
         set(node_ids) == set(imported_nodes.keys()),
         "There should be imported these nodes: {}"
         "There are: {}".format(node_ids, imported_nodes.keys()))
+
+    """@pylatest api/gluster.cluster_create
+        .. test_step:: 5
+
+        Test if all nodes from cluster are in trusted pool on gluster machines.
+
+        .. test_result:: 5
+
+        Test passes if lists of cluster nodes from tendrl and on machines match.
+        """
+    storage = gluster.GlusterCommon()
+    peer_status = storage.get_hosts_from_trusted_pool(valid_nodes[node_ids[0]]["fqdn"])
+    pytest.check(
+        set(node_ids) == set(peer_status),
+        "Nodes from tendrl: {},"
+        "Nodes from gluster: {}"
+        "These should match.".format(node_ids, peer_status))
 
 
 """@pylatest api/gluster.cluster_import

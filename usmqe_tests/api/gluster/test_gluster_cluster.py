@@ -34,7 +34,7 @@ Positive test for create gluster cluster and expanding it.
 """
 
 
-@pytest.mark.parametrize("cluster_name, expand_nodes_count", ["ClusterName", 1])
+@pytest.mark.parametrize("cluster_name, expand_nodes_count", [("ClusterName", 1)])
 def test_cluster_create_expand_valid(
         valid_session_credentials,
         valid_nodes,

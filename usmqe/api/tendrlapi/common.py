@@ -357,7 +357,6 @@ class TendrlApi(ApiBase):
         self.check_response(response, asserts_in)
         return response.json()
 
-
     def import_cluster(self, nodes, sds_type=None, asserts_in=None):
         """ Import cluster.
 

@@ -62,11 +62,11 @@ def test_cluster_create_expand_valid(
     provisioner_ip = None
     network = pytest.config.getini("usm_network_subnet")
     node_ids = []
-    ips = None
     for x in valid_nodes:
+        ips = None
         if "tendrl/server" in x["tags"]:
             continue
-        for y in x["networks"]:
+        for y in x["networks"].values():
             if y["subnet"] == network:
                 ips = y["ipv4"]
                 break

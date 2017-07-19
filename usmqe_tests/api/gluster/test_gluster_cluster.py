@@ -70,10 +70,17 @@ def test_cluster_create_expand_valid(
             if y["subnet"] == network:
                 ips = y["ipv4"]
                 break
+
         pytest.check(
             type(ips) == list,
             "type of ip addresses returned from api have to be list,"
-            " it is: {}".format(type(ips)))
+            " it is: {}".format(type(ips)),
+            issue = "https://github.com/Tendrl/api/issues/220")
+
+        # HACK
+        # TODO remove after https://github.com/Tendrl/api/issues/220 is resolved.
+        ips = json.loads(ips)
+
         pytest.check(
             len(ips) == 1,
             "length of ipv4 addresses list have to be 1, otherwise it is not valid"

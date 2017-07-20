@@ -139,7 +139,7 @@ def test_cluster_create_expand_valid(
     # TODO(fbalak) remove this sleep after
     #              https://github.com/Tendrl/api/issues/159 is resolved.
     import time
-    time.sleep(30)
+    time.sleep(120)
 
     imported_clusters = [x for x in api.get_cluster_list()
                          if x["integration_id"] == integration_id]
@@ -180,7 +180,7 @@ def test_cluster_create_expand_valid(
     # TODO(fbalak) remove this sleep after
     #              https://github.com/Tendrl/api/issues/159 is resolved.
     import time
-    time.sleep(30)
+    time.sleep(120)
 
     imported_clusters = [x for x in api.get_cluster_list()
                          if x["integration_id"] == integration_id]

@@ -62,7 +62,7 @@ class TendrlApiGluster(TendrlApi):
                           ``node_id``,``role`` and ``provisioning_ip``
             asserts_in (dict): assert values for this call and this method
         """
-        return super().create_cluster(
+        return super().expand_cluster(
             cluster_id=cluster_id,
             nodes=nodes,
             sds_type="gluster",

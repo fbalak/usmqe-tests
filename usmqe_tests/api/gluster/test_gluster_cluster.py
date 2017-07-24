@@ -75,7 +75,7 @@ def test_cluster_create_expand_valid(
             type(ips) == list,
             "type of ip addresses returned from api have to be list,"
             " it is: {}".format(type(ips)),
-            issue = "https://github.com/Tendrl/api/issues/220")
+            issue="https://github.com/Tendrl/api/issues/220")
 
         # HACK
         # TODO remove after https://github.com/Tendrl/api/issues/220 is resolved.

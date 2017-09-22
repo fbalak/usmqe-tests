@@ -54,12 +54,14 @@ def logger_testcase(request):
 
 # TODO(fbalak) remove line with `password_confirmation` after
 # https://github.com/Tendrl/api/issues/106 is resolved
+# TODO(fbalak) do not use `"role": "admin"` until issue
+# https://github.com/Tendrl/api/issues/299 is resolved
 @pytest.fixture(
     params=[{
         "name": "Tom Hardy",
         "username": "thardy",
         "email": "thardy@tendrl.org",
-        "role": "admin",
+        "role": "normal",
         "password": "pass1234",
         "password_confirmation": "pass1234",
         "email_notifications": True}])

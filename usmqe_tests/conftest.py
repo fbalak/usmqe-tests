@@ -66,7 +66,8 @@ def logger_testcase(request):
 def valid_normal_user_data(request):
     """
     Generate valid data that can be imported into tendrl as a new user
-    with normal role.
+    with normal role. This user is permitted to provision storage but can not
+    manage Tendrl application.
 
     ``params`` parameter takes list of dictionaries where each dictionary
         contains ``username`` and ``password`` as keys.
@@ -105,7 +106,8 @@ def valid_new_normal_user(valid_normal_user_data):
 def valid_admin_user_data(request):
     """
     Generate valid data that can be imported into tendrl as a new user
-    with admin role.
+    with admin role. This user is able to manage Tendrl and all storage
+    operations.
 
     ``params`` parameter takes list of dictionaries where each dictionary
         contains ``username`` and ``password`` as keys.

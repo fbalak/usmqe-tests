@@ -69,6 +69,10 @@ def valid_normal_user_data(request):
     with normal role. This user is permitted to provision storage but can not
     manage Tendrl application.
 
+    Related references:
+    https://redhat.invisionapp.com/share/KNB25OEQT#/screens/226063796
+    https://github.com/Tendrl/specifications/pull/237/files
+
     ``params`` parameter takes list of dictionaries where each dictionary
         contains ``username`` and ``password`` as keys.
     """
@@ -108,6 +112,10 @@ def valid_admin_user_data(request):
     Generate valid data that can be imported into tendrl as a new user
     with admin role. This user is able to manage Tendrl and all storage
     operations.
+
+    Related references:
+    https://redhat.invisionapp.com/share/KNB25OEQT#/screens/226063796
+    https://github.com/Tendrl/specifications/pull/237/files
 
     ``params`` parameter takes list of dictionaries where each dictionary
         contains ``username`` and ``password`` as keys.

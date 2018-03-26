@@ -19,6 +19,8 @@ class NavMenuBarsModel(UpperMenuModel):
     """
     Common page model for the main page - navigation.
     """
+    # upper link
+    clusters_link = PageElement(by=By.LINK_TEXT, locator="Clusters")
     # left navbar
     nodes_link = PageElement(by=By.LINK_TEXT, locator="Hosts")
     volumes_link = PageElement(by=By.LINK_TEXT, locator="Volumes")

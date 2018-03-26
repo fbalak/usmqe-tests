@@ -42,22 +42,21 @@ class NavMenuBars(UpperMenu):
         'events_link'
     ])
 
-# TODO for open clusters page a "context switcher's" dropdown menu has to be used
-#    def open_clusters(self, click_only=False):
-#        """
-#        Opens clusters page.
-#
-#        Parameters:
-#            click_only (bool): just click on the link and return None
-#
-#        Returns:
-#            Instance of ClustersList if click_only is False
-#            None otherwise
-#        """
-#        self._model.clusters_link.click()
-#        if click_only:
-#            return None
-#        return ClustersList(self.driver)
+    def open_clusters(self, click_only=False):
+        """
+        Opens clusters page.
+
+        Parameters:
+            click_only (bool): just click on the link and return None
+
+        Returns:
+            Instance of ClustersList if click_only is False
+            None otherwise
+        """
+        self._model.clusters_link.click()
+        if click_only:
+            return None
+        return ClustersList(self.driver)
 
     def open_hosts(self, click_only=False):
         """

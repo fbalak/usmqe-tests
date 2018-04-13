@@ -1,6 +1,6 @@
 """
-Description: Simple cluster auxiliary classes providing
-             those methods and variables which are in common for
+Description: Simple cluster auxiliary methods, classes
+             and variables which are in common for
              several existing cluster classes on different pages
 
 Author: ltrilety
@@ -8,10 +8,6 @@ Author: ltrilety
 
 import copy
 import pytest
-
-from webstr.core import WebstrPage
-
-import usmqe.web.tendrl.clusters.auxiliary.models as m_clusters
 
 
 IMPORT_TIMEOUT = 3600
@@ -68,34 +64,3 @@ def check_hosts(hosts_list, page_hosts_list):
         aux_list == [],
         'All cluster hosts should be listed on page '
         '(not listed: {})'.format(hostnames))
-
-
-class ClustersWorkBase(object):
-    """
-    auxiliary base class with methods for work with clusters - create/import
-    """
-    def start_import_cluster(self):
-        """
-        auxiliary method for clicking on proper import button
-        """
-        self._model.import_btn.click()
-
-    def start_create_cluster(self):
-        """
-        auxiliary method for clicking on proper create button
-        """
-        self._model.create_btn.click()
-
-
-class ViewTaskPage(WebstrPage):
-    """
-    Page with view task button
-    """
-    _model = m_clusters.ViewTaskPageModel
-    _label = 'clusters view task page'
-    _required_elems = ['view_task_btn']
-
-    def view_task(self):
-        """ click on View Task Progress button
-        """
-        self._model.view_task_btn.click()

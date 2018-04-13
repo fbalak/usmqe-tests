@@ -9,7 +9,6 @@ from webstr.patternfly.contentviews import pages as contentviews
 
 import usmqe.web.tendrl.clusters.models as m_cluster_list
 from usmqe.web.tendrl.auxiliary.pages import FilterListMenu, OrderListMenu
-from usmqe.web.tendrl.clusters.auxiliary.pages import ClustersWorkBase
 
 
 class ClustersListException(Exception):
@@ -18,7 +17,7 @@ class ClustersListException(Exception):
     """
 
 
-class ClustersMenu(FilterListMenu, OrderListMenu, ClustersWorkBase):
+class ClustersMenu(FilterListMenu, OrderListMenu):
     """
     Clusters page top menu
     """

@@ -12,6 +12,12 @@ from usmqe.web.tendrl.auxiliary.pages import FilterListMenu, OrderListMenu
 from usmqe.web.tendrl.clusters.auxiliary.pages import ClustersWorkBase
 
 
+
+class ClustersListException(Exception):
+    """
+    unexpected cluster list exception
+    """
+
 class ClustersMenu(FilterListMenu, OrderListMenu, ClustersWorkBase):
     """
     Clusters page top menu
@@ -57,6 +63,13 @@ class ClustersRow(contentviews.ListViewRow):
         else:
             return True
 
+    def get_hosts(self):
+        """
+        Opens list of hosts for given cluster.
+        """
+        self._model.hosts_link.click()
+        return ClustersHostsList(self.driver)
+
 
 class ClustersList(contentviews.ListView):
     """
@@ -69,3 +82,33 @@ class ClustersList(contentviews.ListView):
     _model = m_cluster_list.ClustersListModel
     _label = 'main page - clusters - list'
     _row_class = ClustersRow
+
+class ClustersHostsRow(contentviews.ListViewRow):
+    """
+    Cluster in Clusters list
+    """
+    _model = m_cluster_list.ClustersHostsRowModel
+    _required_elems = []
+
+    @property
+    def host(self):
+        """ returns cluster name """
+        return self._model.host.text
+
+class ClustersHostsList(contentviews.ListView):
+    """
+    Base page object for Hosts list on Clusters page.
+
+    Parameters:
+      _location - initial URL to load upon instance creation
+      _model - page model
+    """
+    _model = m_cluster_list.ClustersHostsListModel
+    _label = 'main page - clusters - list'
+    _row_class = ClustersHostsRow
+
+    def close(self):
+        """
+        click on Import Cluster button
+        """
+        self._model.close_btn.click()

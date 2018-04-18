@@ -26,6 +26,10 @@ class ClustersMenuModel(FilterListMenuModel, OrderListMenuModel):
 
 class ClustersListModel(contentviews.ListViewModel):
     """ list of clusters with common cluster elements """
+    cluster_list = PageElement(
+        by=By.XPATH,
+        locator='.//div[contains(@class,"list-group-item")]',
+        as_list=True)
 
 
 class ClustersRowModel(contentviews.ListViewRowModel):
@@ -61,8 +65,28 @@ class ClustersRowModel(contentviews.ListViewRowModel):
     import_btn = form.Button(
         By.XPATH,
         '//button[@ng-click="clusterCntrl.goToImportFlow(cluster)"]')
+
+    hosts_link = PageElement(
+        By.XPATH,
+        '//a[@ng-click="clusterCntrl.openHostModal(cluster)"]')
 # TODO
 # add link to grafana when available
 
+class ClustersHostsListModel(contentviews.TableViewModel):
+    """ list of clusters with common cluster elements """
+    close_btn = form.Button(
+        By.XPATH,
+        '//button[@ng-click="vm.closeModal()"]')
 
-# TODO add HostsListModel and HostsRowModel
+
+class ClustersHostsRowModel(contentviews.TableViewRowModel):
+    """
+    Row in Cluster table model.
+    """
+    host = PageElement(
+        By.XPATH,
+        './/span[1]')
+
+    address = PageElement(
+        By.XPATH,
+        './/span[2]')

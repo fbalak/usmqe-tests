@@ -63,7 +63,7 @@ def test_cluster_list(valid_credentials, sds_name):
     NOTE: a 'gluster' cluster must already exists in etcd
     """
     navMenuBar = valid_credentials.init_object
-    clusters_list = navMenuBar.open_clusters()
+    clusters_list = navMenuBar
     pytest.check(len(clusters_list) > 0, 'Cluster list should not be empty')
     ClustersMenu(valid_credentials.driver)
     if sds_name == 'ceph':
@@ -78,7 +78,11 @@ def test_cluster_list(valid_credentials, sds_name):
         pytest.check(
             cluster.is_present,
             'Any cluster (line in Clusters list) should have some elements')
+        HostsList = cluster.get_hosts()
+        print([host.host for host in HostsList])
+        print(inventory_hosts)
         pytest.check(
-            int(cluster.hosts_nr) == len(inventory_hosts),
+            len([host for host in HostsList]) == len(inventory_hosts),
             'The hosts number should correspond to the number of {} hosts: {}'.
             format(sds_name, len(inventory_hosts)))
+        HostsList.close()

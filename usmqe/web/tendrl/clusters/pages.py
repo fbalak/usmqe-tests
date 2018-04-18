@@ -12,11 +12,11 @@ from usmqe.web.tendrl.auxiliary.pages import FilterListMenu, OrderListMenu
 from usmqe.web.tendrl.clusters.auxiliary.pages import ClustersWorkBase
 
 
-
 class ClustersListException(Exception):
     """
     unexpected cluster list exception
     """
+
 
 class ClustersMenu(FilterListMenu, OrderListMenu, ClustersWorkBase):
     """
@@ -83,6 +83,7 @@ class ClustersList(contentviews.ListView):
     _label = 'main page - clusters - list'
     _row_class = ClustersRow
 
+
 class ClustersHostsRow(contentviews.ListViewRow):
     """
     Cluster in Clusters list
@@ -94,6 +95,7 @@ class ClustersHostsRow(contentviews.ListViewRow):
     def host(self):
         """ returns cluster name """
         return self._model.host.text
+
 
 class ClustersHostsList(contentviews.ListView):
     """

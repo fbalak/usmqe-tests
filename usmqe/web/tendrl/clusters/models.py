@@ -72,6 +72,7 @@ class ClustersRowModel(contentviews.ListViewRowModel):
 # TODO
 # add link to grafana when available
 
+
 class ClustersHostsListModel(contentviews.TableViewModel):
     """ list of clusters with common cluster elements """
     close_btn = form.Button(

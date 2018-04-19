@@ -12,7 +12,7 @@ from webstr.selenium.ui.exceptions import InitPageValidationError
 from usmqe.web.tendrl.clusters.pages import\
     ClustersList
 from usmqe.web.tendrl.clusters.import_cluster_wizard.pages\
-    import ImportCluster
+    import ImportClusterSummary
 from usmqe.web.tendrl.details.tasks.pages import TaskDetails
 from usmqe.web.tendrl.task_wait import task_wait
 
@@ -166,7 +166,7 @@ def import_cluster(driver, init_object, cluster_type=None):
         'button[ng-click^="clusterCntrl.goToImportFlow(cluster)"]'
         '\').click()')
 
-    import_page = ImportCluster(driver)
+    import_page = ImportClusterSummary(driver)
 
     hosts_list = import_page.import_cluster()
 

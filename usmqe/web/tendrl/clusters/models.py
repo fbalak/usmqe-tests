@@ -19,9 +19,16 @@ class ClustersMenuModel(FilterListMenuModel, OrderListMenuModel):
     """
     Clusters page top menu
     """
+    _context = "cluster"
     header = PageElement(
         by=By.XPATH,
         locator="//h1[contains(text(),'Clusters')]")
+    order_by = form.Button(
+        By.XPATH,
+        '(//*[@id="{}Sort"]//button)[1]'.format(_context))
+    order_btn = form.Button(
+        By.XPATH,
+        '(//*[@id="{}Sort"]//button)[2]'.format(_context))
 
 
 class ClustersListModel(contentviews.ListViewModel):

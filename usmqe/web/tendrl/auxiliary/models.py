@@ -3,16 +3,17 @@ Some usefull model classes for common work with tendrl web
 """
 
 from webstr.core import WebstrModel, By, PageElement, RootPageElement,\
-    DynamicWebstrModel, DynamicPageElement
+    DynamicPageElement
 from webstr.common.form import models as form
 #
 # from usmqe.web.utils import StatusIcon
 
 
-class BaseListMenuModel(DynamicWebstrModel):
+class BaseListMenuModel(WebstrModel):
     """
     base auxiliary model for list menu (filter and order fields)
     """
+    _context = ""
 
     def __init__(self, driver):
         """
@@ -23,7 +24,7 @@ class BaseListMenuModel(DynamicWebstrModel):
             name: page model instance name; this name is used for identifying
                   single instance along others, e.g., single VM in the VM list
         """
-        super(DynamicWebstrModel, self).__init__(driver)
+        super(WebstrModel, self).__init__(driver)
         self._link_text = ""
 
     def __setattr__(self, name, value):
@@ -51,6 +52,7 @@ class FilterListMenuModel(BaseListMenuModel):
           such links has will be instanced from Page object
           a _link_text parameter will be used
           e.g. name = PageElement(by=By.LINK_TEXT, locator="Name")
+    NOTE: the class attribute *_context* has to be set for any inherited class
     """
     filter_by = form.Button(
         By.XPATH,
@@ -63,9 +65,10 @@ class FilterListMenuModel(BaseListMenuModel):
         By.XPATH,
         '//div[contains(@ng-if, "filterType")]')
     filter_input_value = filter_by_value
-    order_by = form.Button(
-        By.XPATH,
-        '(//*[@id="hostSort"]//button)[1]')
+    # NOTE: there has to be set order_by in any inherited class
+    # order_by = form.Button(
+    #     By.XPATH,
+    #     '(//*[@id="<context>Sort"]//button)[1]')
 
     # note the element is present only if some filter is active
     clear_all_filters = PageElement(
@@ -84,14 +87,16 @@ class OrderListMenuModel(BaseListMenuModel):
           such links has will be instanced from Page object
           a _link_text parameter will be used
           e.g. name = PageElement(by=By.LINK_TEXT, locator="Name")
+    NOTE: the class attribute *_context* has to be set for any inherited class
     """
-    order_by = form.Button(
-        By.XPATH,
-        '(//*[@id="hostSort"]//button)[1]')
+    # NOTE: there has to be set order_by and order_btn in any inherited class
+    # order_by = form.Button(
+    #     By.XPATH,
+    #     '(//*[@id="<context>Sort"]//button)[1]')
     order_by_value = DynamicPageElement(by=By.LINK_TEXT, locator="%s")
-    order_btn = form.Button(
-        By.XPATH,
-        '(//*[@id="hostSort"]//button)[2]')
+    # order_btn = form.Button(
+    #     By.XPATH,
+    #     '(//*[@id="<context>Sort"]//button)[2]')
 
 
 class UpperMenuModel(WebstrModel):

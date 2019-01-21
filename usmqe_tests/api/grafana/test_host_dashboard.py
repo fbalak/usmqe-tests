@@ -63,6 +63,8 @@ def test_host_dashboard_layout():
 @pytest.mark.author("fbalak@redhat.com")
 @pytest.mark.ansible_playbook_setup('test_setup.graphite_access.yml')
 @pytest.mark.ansible_playbook_teardown('test_teardown.graphite_access.yml')
+@pytest.mark.ansible_playbook_setup('test_setup.stress_tools.yml')
+@pytest.mark.ansible_playbook_teardown('test_teardown.stress_tools.yml')
 def test_cpu_utilization(
         ansible_playbook, workload_cpu_utilization, cluster_reuse):
     """
@@ -113,6 +115,8 @@ def test_cpu_utilization(
 @pytest.mark.author("fbalak@redhat.com")
 @pytest.mark.ansible_playbook_setup('test_setup.graphite_access.yml')
 @pytest.mark.ansible_playbook_teardown('test_teardown.graphite_access.yml')
+@pytest.mark.ansible_playbook_setup('test_setup.stress_tools.yml')
+@pytest.mark.ansible_playbook_teardown('test_teardown.stress_tools.yml')
 def test_memory_utilization(
         ansible_playbook, workload_memory_utilization, cluster_reuse):
     """
@@ -169,6 +173,8 @@ def test_memory_utilization(
 @pytest.mark.author("fbalak@redhat.com")
 @pytest.mark.ansible_playbook_setup('test_setup.graphite_access.yml')
 @pytest.mark.ansible_playbook_teardown('test_teardown.graphite_access.yml')
+@pytest.mark.ansible_playbook_setup('test_setup.stress_tools.yml')
+@pytest.mark.ansible_playbook_teardown('test_teardown.stress_tools.yml')
 def test_swap_free(
         ansible_playbook, workload_swap_utilization, cluster_reuse):
     """
@@ -219,6 +225,8 @@ def test_swap_free(
 @pytest.mark.author("fbalak@redhat.com")
 @pytest.mark.ansible_playbook_setup('test_setup.graphite_access.yml')
 @pytest.mark.ansible_playbook_teardown('test_teardown.graphite_access.yml')
+@pytest.mark.ansible_playbook_setup('test_setup.stress_tools.yml')
+@pytest.mark.ansible_playbook_teardown('test_teardown.stress_tools.yml')
 def test_swap_utilization(
         ansible_playbook, workload_swap_utilization, cluster_reuse):
     """
